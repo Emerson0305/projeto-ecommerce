@@ -1,0 +1,125 @@
+-- Inserindo dados na tabela Clinte.
+use ECOMMERCE;
+desc clients;
+select * from clients;
+insert into clients (Pname,Minit,Lname,Accounty_type,CPF,Date_of_brirth,Address)
+values ('Emerson','D','Santos','Pessoa Fisica',11999444551,'1992-05-03','Rua pedro primeiro 20,Campina Grande-Paraiba'),
+	   ('Carlos','E','Silva', default,12123456152,'1910-05-19','Avenida das flores 30,Paraiso do Norte-Parana'),
+       ('Pedro','P','Araujo',default,10123456789,'2001-01-30','Rua campos 208,Cachoerinha-Rio Grande do Sul'),
+       ('Ana','M','Maria','Pessoa Juridica',10456789121,'1901-02-20','Avenida Brasil 200,Bela Vista- São Paulo'),
+       ('Carla','C','Campos',default,20123456781,'2000-12-20','Rua Humaita 500, João Pessoa - Paraiba'),
+       ('Maria','M','Gomes',default,14123456788,'2010-10-19','Rua 13 de maio, CaboFrio - Rio de Janeiro');
+       
+-- Inserindo dados na tabela Produto.
+desc Product;
+select * from Product;
+alter table Product 
+modify column Category varchar (255);
+insert into Product (idProduct,Pname,Category,Descriptionp,Value_producty,Assessment,Size,Classification)
+values (1,'Camiseta','Vestimenta','Roupa',50,10,null,'Preto'),
+       (2,'Fone de Ouvido','Eletronico','Fone',100,9,null,'Sem Fio'),
+       (3,'Carro de Controle','Brinquedo','Remoto',150,8,null,'Funcionais'),
+       (4,'Sofa','Móvies','Retratil',900,7,'3x10x150','Moderno'),
+       (5,'Pizza','Alimento','Comida',45,10,null,'Massa'),
+       (6,'Computador','Eletronico','Notebook',2000,9,null,'Gamer');
+       
+-- Inserindo dados na  tabela Pedido.
+select * from Orders;
+insert into Orders (idOrders,idOrdersClients,OrderStatus,StatusDelivery,DescriptionOrder,TaxDelivery,OrderNumber,Codetracking)
+values(1,13,'Confirmado','Entregue','Compra via aplicativo',15,1,0123456789),
+      (2,14,default,default,'Compra na loja',default,2,1012345678),
+      (3,15,'Cancelado','Em andamento','Compra via web',20,3,4545121010),
+      (4,16,default,'Aguardando Retirada','Compra via aplicativo',12,4,0008000010),
+      (5,17,'Em Processamento',default,'Compra via loja',15,5,0400400010),
+      (6,18,'Confirmado','Entregue','Compra via web',default,6,0100055555);
+      
+-- Inserindo dados na tabela Pagamento.
+select * from Payment;
+insert into Payment(idPayment,idOrderspay,idClientspay,typePayment,statusPayment,limitis,valuesPayment)
+values(7,1,13,'Pix','Aprovado',4.500,20.00),
+      (8,2,14,'Boleto','Pendente',5.000,11.00),
+      (9,3,15,'Cartão de débito','Aprovado',9.000,15.00),
+      (10,4,16,'Cartão de crédito','Cancelado',0,10.00),
+      (11,5,17,'Pix','Aprovado',4.000,25.00),
+      (12,6,18,'Boleto','Pendente',5.000,10.00);
+      
+-- Inserindo dados na  tabela estoque.
+select * from Stocks;
+insert into Stocks (idStocks,location,Quantity)
+values(1,'Rio de janeiro',9000),
+      (2,'São Paulo',5000),
+      (3,'Mato Grosso',4000),
+      (4,'Paraná',7500),
+      (5,'Paraiba',8000),
+      (6,'Fortaleza',6000);
+      
+-- Inserindo dados na tabela Fornecedor.
+select * from supplier;
+insert into supplier(idSupplier,SocialName,CNPJ,Contact,email,address)
+values(1,'Magazine',123456789121234,11987966712,'magazine145@gmail.com','Rua Anapolis 456,Goiania-GO'),
+      (2,'Americanas',987456123789641,83456789123,'americanas4568@gmail.com','Avenida Barbosa 145,Mirasol-SP'),
+      (3,'Daron',789123456789789,44978456123,'daronsp@hotmail.com','Rua humaita 619,Bela vista-SP'),
+      (4,'FreitasComercio',102030405060708,85123456789,'freitasbras@hotmail.com','Avenida Campos 200,Paraty-RJ'),
+      (5,'Ortobompeças',451234567897812,88123456789,'ortobom@gmail.com','Rua das Candeias 450,Paraiso-PR'),
+      (6,'Magazim',073123456789456,45123456789,'magazin@hotmail.com','Avenida da Palmeiras 500,Campina Grande-PB');
+      
+-- Inserindo dados na tabela Vendedor.
+select * from seller;
+insert into Seller(idSeller,SocialName,Location,CPF_CNPJ,Contact,typePerson)
+values(1,'LojaCurajão','Brasilia-Df',12378945612,12123456789,default),
+      (2,'LojaBras','Bras-SP',32112789456,83123456789,default),
+      (3,'LojaFreitas','João Pessoa-PB',45645123456,45123456789,'Pessoa Juridica'),
+      (4,'Barhouse','Mariluz-PR',17789456123,44123456789,'Pessoa Fisica'),
+      (5,'GamesBr','Goias-GO',45789456789,55123456789,default),
+      (6,'AssaiAtacadista','São Paulo-SP',11456678945,11759461212,default);
+      
+-- Inserindo dados na tabela Fornecedor_Vendedor.
+select * from supplier_seller;
+insert into Supplier_Seller(idSupler_Supplier,idSupler_Seller,date_parceria)
+values(1,1,'2000-12-02'),
+	  (2,2,'1999-10-03'),
+      (3,3,'2010-05-10'),
+      (4,4,'2010-01-15'),
+      (5,5,'1980-06-20'),
+      (6,6,'2005-11-30');
+      
+-- Inserindo dados na tabela Produto_Vendedor.
+select * from product_seller;
+insert into Product_Seller(idPproduct,idPseller,ProdQuantity)
+values(1,1,7800),
+      (2,2,8000),
+      (3,3,9500),
+      (4,4,1000),
+      (5,5,4500),
+      (6,6,6000);
+      
+-- Inserindo dados na tabela Produto_Pedido.
+select * from product_orders;
+insert into Product_Orders(idPpproduct,idPpOrders,poQuantity,poStatus)
+values(1,1,3000,'Disponível'),
+	  (2,2,2000,default),
+      (3,3,4000,'Disponível'),
+      (4,4,4500,default),
+      (5,5,3500,'Disponível'),
+      (6,6,2500,default);
+      
+-- Inserindo dados na tabela produto em Estoque.
+select * from product_storage,product;
+insert into Product_storage(idStorage_product,idStorage_stocks,storage_Location)
+values(1,1,'Rio de Janeiro'),
+      (2,2,'São Paulo'),
+      (3,3,'Mato Grosso'),
+      (4,4,'Paraná'),
+      (5,5,'Paraiba'),
+      (6,6,'Fortaleza');
+      
+-- Inserindo dados na tabela Produto Fornecedor.
+select * from product_supplier;
+insert into Product_supplier(idPfProduct,idPfSupplier,pfQuantity)
+values(1,1,150),
+	  (2,2,200),
+      (3,3,500),
+      (4,4,600),
+      (5,5,750),
+      (6,6,850);      
+      
