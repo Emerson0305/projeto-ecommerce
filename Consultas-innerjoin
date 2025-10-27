@@ -1,0 +1,147 @@
+-- Utilizando consultas e união da tabelas.  
+use ecommerce;
+show tables;
+desc product_orders;
+select * from clients , orders;
+select * from payment;
+select *from orders;
+select * from product;
+select * from stocks;
+select * from seller;
+select * from supplier;
+select * from product_orders; -- produto e pedido
+select * from product_storage; -- produto em estoque
+select * from product_seller; -- produto e vendedor
+select * from product_supplier; -- produto e fornecedor
+select * from supplier_seller; -- fornecedor e vendedor
+
+-- Recuperando informações com SELECT E WHERE STATEMENT.
+-- Recuperando o numero do pedido e o codigo de rastreio do pedido e tambem o status de entrega.
+select c.pname, o.orderNumber, o.codetracking , o.statusdelivery 
+from clients as c , orders as o 
+where c.idclients= o.idOrdersclients;
+
+-- Recuperando o nome do fornecedor junto com o produto e verificando a quantidade do produto.
+select s.socialname , p.pname ,ps.pfquantity 
+from supplier as s , product as p  , product_supplier as ps
+where s.idsupplier =ps.idpfsupplier and p.idproduct = ps.idpfproduct;
+
+-- verificando os pedidos de um cliente.
+select concat( pname, ' ' ,lname) as clients, idorders ,orderstatus
+from clients as c , orders as o 
+where c.idclients=idordersclients;
+
+-- Recuperando dados com média,soma,max e min na tabela produto.
+select * from product;
+select sum(value_producty) as valor_produto , max(value_producty) as maior_produto, 
+min(value_producty)as menor_produto, round(avg(value_producty),3) as media_valor
+from product as p;
+
+-- Calculando a média da coluna valor do produto com Group by.
+select idproduct , count(*), avg(value_producty) as media_produto
+from product 
+group by idproduct;
+
+-- Ordenando o nome social e seu id para ordem descrescente
+select * from supplier;
+select s.socialname , s.idsupplier
+from supplier as s 
+order by s.socialname, s.idsupplier desc;
+
+-- verificando a condição dos valores entre 6000 a 9000 com between?
+select * from stocks;
+select st.idstocks , st.location, st.quantity
+from stocks as st
+where (st.quantity between 6000 and 9000);
+
+-- Usando a função HAVING para contar os valores do pagamento maiores que 10.
+select * from payment;
+select valuespayment
+from payment
+where valuespayment >10
+group by valuespayment
+having  count(*) >0;
+
+-- Verificando as maiores quantidades no estoque.
+select * from stocks;
+select s.quantity
+from stocks as s
+where s.idstocks > 1
+group by s.quantity
+having count(*) > 0
+order by quantity;
+
+-- Verificando os tipos de pagamentos .
+select * from payment;
+select * from clients;
+select p.idpayment ,p.typepayment
+from payment as p , orders as o
+where p.idpayment > 7
+group by p.idpayment, p.typepayment
+having count(*) > 5 ;
+
+-- Atualizando os dados na tabela com CASE STATEMENT
+select * from payment;
+update payment  set valuespayment = 
+	case 
+		when idpayment= 7 then valuespayment + 20
+        when idpayment = 8 then valuespayment + 10
+        when idpayment = 9 then valuespayment + 10
+        when idpayment =10 then valuespayment + 20
+        when idpayment = 11 then valuespayment +30
+        when idpayment = 12 then valuespayment + 35
+        else valuespayment  + 0
+	end;
+    
+-- Unindo tabelas com inner join.
+-- Recuperando quantos pedidos foram feitos pelos clientes?
+select c.idclients , concat(pname,' ',lname) as clients_vip , count(*) as number_of_orders from clients c
+      inner join orders as o on c.idclients = idordersclients
+      group by idclients;
+      
+-- algum vendedor também é fornecedor.
+select * from seller,supplier;
+select * from supplier_seller;
+select s.socialname , sp.socialname 
+from seller as s
+inner join supplier as sp on idseller = idsupplier
+where s.socialname = sp.socialname;
+
+-- Verificar a relação entre produtos ,fornecedores e estoques.
+select * from product_supplier;
+select * from product_storage;
+select * from product;
+select * from supplier;
+select * from stocks;
+
+select sp.idsupplier , sp.socialname,p.idproduct,p.pname,ps.pfquantity,s.location,s.quantity 
+from supplier as sp 
+inner join product_supplier as ps on sp.idsupplier=ps.idpfsupplier
+inner join product as p  on ps.idpfsupplier=p.idproduct
+inner join stocks as s on p.idproduct =s.idstocks;
+
+-- Verificar a relação entre nome dos fornecedores e nome dos produtos.
+select  s.socialname , p.pname
+from supplier as s 
+inner join product as p on s.idsupplier = p.idproduct;
+
+-- Verficar qual a forma de pagamento que um cliente fez ao fazer um pedido e o status da entrega .
+select * from clients;
+select * from orders;
+select * from payment;
+
+select c.pname, o.orderstatus,o.statusdelivery, p.typepayment,p.statuspayment
+from clients as c
+inner join orders as o on c.idclients = o.idordersclients  
+inner join payment as p on o.idorders=p.idorderspay 
+where c.pname = 'Emerson';
+
+-- Verificar a quantidade de produto de um fornecedor e quem vende o produto.
+select * from product;
+select * from product_supplier;
+select * from supplier;
+
+select p.pname ,ps.pfquantity,s.socialname,s.idsupplier 
+from product as p 
+inner join supplier as s on p.idproduct = s.idsupplier   
+inner join product_supplier as ps on ps.idpfsupplier = ps.idpfproduct; 
